@@ -7,9 +7,9 @@ import Foundation
 enum AppInfo {
     static let name = "Cyra"
     static let copyright = "© 2026 Cyra"
-    static let websiteURL = URL(string: "https://github.com/vorssaintapp/vorssaint-utils")!
-    static let repositoryURL = URL(string: "https://github.com/vorssaintapp/vorssaint-utils")!
-    static let coffeeURL = URL(string: "https://buymeacoffee.com")!
+    static let websiteURL = URL(string: "https://github.com/cymphonikbeatz")!
+    static let repositoryURL = URL(string: "https://github.com/cymphonikbeatz")!
+    static let coffeeURL = URL(string: "https://sandbox.flutterwave.com/pay/6f04lyagit1n")!
     static let discordURL = URL(string: "https://discord.gg")!
     static let socialURL = URL(string: "https://x.com")!
 
