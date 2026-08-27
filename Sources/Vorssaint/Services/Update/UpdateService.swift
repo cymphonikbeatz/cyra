@@ -124,7 +124,7 @@ final class UpdateService: ObservableObject {
 
         var request = URLRequest(url: URL(string: endpoint)!)
         request.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
-        request.setValue("Vorssaint/\(AppInfo.version)", forHTTPHeaderField: "User-Agent")
+        request.setValue("\(AppInfo.name)/\(AppInfo.version)", forHTTPHeaderField: "User-Agent")
         request.cachePolicy = .reloadIgnoringLocalCacheData
 
         URLSession.shared.dataTask(with: request) { [weak self] data, _, error in
@@ -277,7 +277,7 @@ final class UpdateService: ObservableObject {
                     }
                     // Move out of the session's scratch space before handing off.
                     let dmgURL = FileManager.default.temporaryDirectory
-                        .appendingPathComponent("Vorssaint-update.dmg")
+                        .appendingPathComponent("Cyra-update.dmg")
                     try? FileManager.default.removeItem(at: dmgURL)
                     do {
                         try FileManager.default.moveItem(at: tempURL, to: dmgURL)
@@ -344,7 +344,7 @@ final class UpdateService: ObservableObject {
     private func launchUserInstaller(appPath: String, dmgPath: String, pid: Int32,
                                      resultPath: String, expectedVersion: String) {
         let scriptURL = FileManager.default.temporaryDirectory
-            .appendingPathComponent("vorssaint-update-\(pid)-\(UUID().uuidString).sh")
+            .appendingPathComponent("cyra-update-\(pid)-\(UUID().uuidString).sh")
         do {
             try UpdateInstallerSupport.installerScript()
                 .write(to: scriptURL, atomically: true, encoding: .utf8)
@@ -494,7 +494,7 @@ private final class BoundedUpdateDownloadDelegate: NSObject, URLSessionDataDeleg
         self.progress = progress
         self.completion = completion
         let temporaryFileURL = FileManager.default.temporaryDirectory
-            .appendingPathComponent("Vorssaint-update-\(UUID().uuidString).download")
+            .appendingPathComponent("Cyra-update-\(UUID().uuidString).download")
         fileURL = temporaryFileURL
         guard FileManager.default.createFile(atPath: temporaryFileURL.path, contents: nil) else {
             throw CocoaError(.fileWriteUnknown)

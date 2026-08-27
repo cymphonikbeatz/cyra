@@ -156,7 +156,7 @@ struct Strings {
     let keepAwakeMouseJiggleCaption: String
     let keepAwakeMouseJiggleInterval: String
     let keepAwakeActiveIconLabel: String
-    let keepAwakeActiveIconVorssaint: String
+    let keepAwakeActiveIconCyra: String
     let keepAwakeActiveIconCoffee: String
     let keepAwakeActiveIconEye: String
     let keepAwakeActiveIconMoon: String

@@ -81,7 +81,7 @@ final class KeyboardDebounceService: ObservableObject {
             let thread = Thread { [weak self] in
                 self?.runEventTap(generation: generation)
             }
-            thread.name = "Vorssaint Keyboard Debounce"
+            thread.name = "Cyra Keyboard Debounce"
             thread.qualityOfService = .userInteractive
             tapThread = thread
             return (thread, false, generation)

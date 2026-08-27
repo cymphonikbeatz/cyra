@@ -2589,11 +2589,11 @@ struct MetricsTests {
                "update intro navigates back without closing")
         expect(SupportUpdateIntroStep.allCases == [.discord, .social, .support],
                "update intro page indicators follow the navigation order")
-        expect(AppInfo.discordURL.absoluteString == "https://discord.gg/M6BwWH4BJp",
+        expect(AppInfo.discordURL.absoluteString == "https://discord.gg",
                "the community action uses the permanent Discord invitation")
-        expect(AppInfo.coffeeURL.absoluteString == "https://buymeacoffee.com/vorssaint",
+        expect(AppInfo.coffeeURL.absoluteString == "https://buymeacoffee.com",
                "financial support uses Buy Me a Coffee")
-        expect(AppInfo.socialURL.absoluteString == "https://x.com/vorssaint",
+        expect(AppInfo.socialURL.absoluteString == "https://x.com",
                "social previews keep the official X profile")
         // AppInfo.version falls back to "dev" in this bare harness, so read
         // the plist the shipped app will actually carry. The pin is a
@@ -9978,7 +9978,7 @@ struct MetricsTests {
         expect(bundleLocalizations.contains("tr"), "Info.plist declares Turkish as a bundle localization")
         expect(bundleLocalizations.contains("ko"), "Info.plist declares Korean as a bundle localization")
         let baseAudioPrompt = infoPlist?["NSAudioCaptureUsageDescription"] as? String ?? ""
-        expect(baseAudioPrompt.contains("Vorssaint taps individual app audio"),
+        expect(baseAudioPrompt.contains("Cyra taps individual app audio"),
                "base audio permission prompt is an English fallback")
         let organizerFolderPromptKeys = [
             "NSDesktopFolderUsageDescription", "NSDocumentsFolderUsageDescription",

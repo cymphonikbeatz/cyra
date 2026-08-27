@@ -1549,7 +1549,7 @@ final class AppVolumeMixer: ObservableObject {
             let name = read(deviceID, kAudioObjectPropertyName, &nameRef)
                 ? nameRef as String
                 : uid
-            guard name != "Vorssaint Mixer" else { continue }
+            guard name != "Cyra Mixer" && name != "Vorssaint Mixer" else { continue }
             let dataSourceName = outputDataSourceName(for: deviceID)
 
             devices.append(MixerOutputDevice(id: uid,
@@ -1859,7 +1859,7 @@ private final class TapGainEngine: GainEngine {
         }
 
         let aggregate: [String: Any] = [
-            kAudioAggregateDeviceNameKey: "Vorssaint Mixer",
+            kAudioAggregateDeviceNameKey: "Cyra Mixer",
             kAudioAggregateDeviceUIDKey: UUID().uuidString,
             kAudioAggregateDeviceIsPrivateKey: true,
             kAudioAggregateDeviceMainSubDeviceKey: outputDeviceUID,

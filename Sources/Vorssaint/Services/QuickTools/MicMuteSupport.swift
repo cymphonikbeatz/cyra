@@ -10,14 +10,15 @@ enum MicMuteSupport {
     /// The app's own private mixing device. It carries a tapped app's audio,
     /// not a microphone, and muting it would silence the very thing the mixer
     /// is rendering.
-    static let ownDeviceName = "Vorssaint Mixer"
+    static let ownDeviceName = "Cyra Mixer"
+    static let legacyOwnDeviceName = "Vorssaint Mixer"
 
     /// The level a device falls back to when nothing was ever saved for it:
     /// loud enough to be usable, quiet enough not to startle.
     static let fallbackVolume: Float = 0.75
 
     static func isOwnDevice(name: String) -> Bool {
-        name == ownDeviceName
+        name == ownDeviceName || name == legacyOwnDeviceName
     }
 
     /// A level worth remembering. Saving a zero would make the unmute restore

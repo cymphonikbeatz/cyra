@@ -8,8 +8,9 @@ import os
 private let log = Logger(subsystem: FanControlIdentifiers.helperID, category: "FanControl")
 
 private final class FanControlOwnership {
-    private let lockPath = "/var/run/vorssaint-fan-control.lock"
-    private let markerPath = "/var/run/vorssaint-fan-control.active"
+    private let lockPath = "/var/run/cyra-fan-control.lock"
+    private let markerPath = "/var/run/cyra-fan-control.active"
+    private let legacyMarkerPath = "/var/run/vorssaint-fan-control.active"
     private var lockFile: Int32 = -1
 
     var isHeld: Bool { lockFile >= 0 }
@@ -38,8 +39,12 @@ private final class FanControlOwnership {
     }
 
     func markerExists() -> Bool {
+        markerExists(at: markerPath) || markerExists(at: legacyMarkerPath)
+    }
+
+    private func markerExists(at path: String) -> Bool {
         var info = stat()
-        guard lstat(markerPath, &info) == 0 else { return false }
+        guard lstat(path, &info) == 0 else { return false }
         return info.st_uid == 0 && (info.st_mode & S_IFMT) == S_IFREG
             && (info.st_mode & mode_t(0o077)) == 0 && info.st_nlink == 1
     }
@@ -67,7 +72,9 @@ private final class FanControlOwnership {
     }
 
     func removeMarker() -> Bool {
-        !markerExists() || unlink(markerPath) == 0
+        let removedMain = !markerExists(at: markerPath) || unlink(markerPath) == 0
+        let removedLegacy = !markerExists(at: legacyMarkerPath) || unlink(legacyMarkerPath) == 0
+        return removedMain && removedLegacy
     }
 
     private func secureRegularFile(_ descriptor: Int32) -> Bool {

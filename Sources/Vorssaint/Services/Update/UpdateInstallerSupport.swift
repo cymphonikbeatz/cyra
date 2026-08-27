@@ -180,7 +180,7 @@ enum UpdateInstallerSupport {
         let args = [appPath, dmgPath, "\(pid)", resultPath, "\(uid)", expectedVersion]
             .map(shellSingleQuoted)
             .joined(separator: " ")
-        return "/usr/bin/nohup /bin/sh -c \(script) vorssaint-installer \(args) >/dev/null 2>&1 &"
+        return "/usr/bin/nohup /bin/sh -c \(script) cyra-installer \(args) >/dev/null 2>&1 &"
     }
 
     /// Whether the next install attempt should go straight through the admin

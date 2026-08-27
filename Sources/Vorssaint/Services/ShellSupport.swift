@@ -124,11 +124,12 @@ enum AdminShell {
 /// toggle without asking for the administrator password every time.
 /// The password is asked once, when installing (or removing) the rule.
 enum Sudoers {
-    static let rulePath = "/etc/sudoers.d/vorssaint-clamshell"
+    static let rulePath = "/etc/sudoers.d/cyra-clamshell"
     // Rule files written under earlier names; removed whenever the rule is
     // (re)installed or removed, so the closed-lid permission migrates without an
     // extra password prompt.
     private static let legacyRulePaths = [
+        "/etc/sudoers.d/vorssaint-clamshell",
         "/etc/sudoers.d/vorssaint-utils-clamshell",
         "/etc/sudoers.d/vorss-clamshell",
     ]

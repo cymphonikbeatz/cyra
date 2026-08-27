@@ -38,7 +38,11 @@ openssl req -x509 -newkey rsa:2048 -keyout "$WORK/key.pem" -out "$WORK/cert.pem"
     -addext "keyUsage=critical,digitalSignature" \
     -addext "extendedKeyUsage=critical,codeSigning" \
     -addext "basicConstraints=critical,CA:false" 2>/dev/null
-openssl pkcs12 -export -legacy -inkey "$WORK/key.pem" -in "$WORK/cert.pem" \
+LEGACY_FLAG=()
+if openssl version 2>/dev/null | grep -q "OpenSSL 3"; then
+    LEGACY_FLAG=(-legacy)
+fi
+openssl pkcs12 -export "${LEGACY_FLAG[@]}" -inkey "$WORK/key.pem" -in "$WORK/cert.pem" \
     -out "$WORK/id.p12" -passout pass:"$KCPASS" -name "$IDENTITY" 2>/dev/null
 
 security delete-keychain "$KC" 2>/dev/null || true

@@ -162,7 +162,7 @@ final class FinderCutPaste: ObservableObject {
             shouldStopTapThread = false
             pendingTapRestart = false
             let thread = Thread { [weak self] in self?.runEventTap() }
-            thread.name = "Vorssaint File Shortcuts"
+            thread.name = "Cyra File Shortcuts"
             thread.qualityOfService = .userInteractive
             tapThread = thread
             return thread

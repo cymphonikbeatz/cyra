@@ -294,7 +294,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate, NSW
     /// Whether the menu bar icon is actually visible on a screen, rather than
     /// present in the status bar but clipped or dropped by a crowded/notched menu
     /// bar (in which case the button still has a window, just not an on-screen one).
-    private static let menuBarLog = Logger(subsystem: Bundle.main.bundleIdentifier ?? "vorssaint",
+    private static let menuBarLog = Logger(subsystem: Bundle.main.bundleIdentifier ?? "cyra",
                                            category: "menubar")
 
     private func iconIsOnScreen() -> Bool {
@@ -1489,7 +1489,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate, NSW
         let path = Bundle.main.bundlePath
         let task = Process()
         task.executableURL = URL(fileURLWithPath: "/bin/sh")
-        task.arguments = ["-c", "sleep 0.3; /usr/bin/open \"$1\"", "vorssaint-relaunch", path]
+        task.arguments = ["-c", "sleep 0.3; /usr/bin/open \"$1\"", "cyra-relaunch", path]
         try? task.run()
         NSApp.terminate(nil)
     }
