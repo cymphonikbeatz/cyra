@@ -74,13 +74,18 @@ NSGraphicsContext.restoreGraphicsState()
 if let logo = NSImage(contentsOfFile: logoPath) {
     let markSize: CGFloat = 36
     let mark = NSRect(x: (widthPt - markSize) / 2, y: heightPt - 114, width: markSize, height: markSize)
-    if let cgImage = logo.cgImage(forProposedRect: nil, context: nil, hints: nil) {
-        ctx.cgContext.saveGState()
-        ctx.cgContext.clip(to: mark, mask: cgImage)
-        NSColor(calibratedRed: 0.40, green: 0.34, blue: 0.78, alpha: 0.18).setFill()
-        mark.fill()
-        ctx.cgContext.restoreGState()
-    }
+    let tinted = NSImage(size: logo.size)
+    tinted.lockFocus()
+    logo.draw(at: .zero, from: .zero, operation: .sourceOver, fraction: 1.0)
+    NSColor(calibratedRed: 0.40, green: 0.34, blue: 0.78, alpha: 1.0).set()
+    NSRect(origin: .zero, size: logo.size).fill(using: .sourceIn)
+    tinted.unlockFocus()
+
+    NSGraphicsContext.saveGraphicsState()
+    NSGraphicsContext.current = ctx
+    ctx.cgContext.scaleBy(x: scale, y: scale)
+    tinted.draw(in: mark, from: .zero, operation: .sourceOver, fraction: 0.18)
+    NSGraphicsContext.restoreGraphicsState()
 }
 
 guard let data = rep.representation(using: .png, properties: [:]) else { exit(1) }
