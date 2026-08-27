@@ -39,10 +39,8 @@ direction rather than code.
 
 **Settle the direction, then write.** An agent builds whatever it is asked
 for; it has no way to know whether a thing belongs in this app. Open an issue,
-or find the one that exists — the [enhancement
-summary](https://github.com/vorssaintapp/vorssaint-utils/issues/838) sorts
-every open request into what shipped, what is worth doing, and what has been
-ruled out. Killing a direction before there is a branch costs an order of
+or find the one that exists in [GitHub Issues](https://github.com/cymphonikbeatz/vorssaint-utils/issues).
+Killing a direction before there is a branch costs an order of
 magnitude less than killing it after.
 
 **Search the codebase for what you are about to write.** Window handling,

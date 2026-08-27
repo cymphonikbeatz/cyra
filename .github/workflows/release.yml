@@ -17,11 +17,11 @@ jobs:
   preflight:
     name: Verify trusted release ref
     if: >-
-      github.repository == 'vorssaintapp/vorssaint-utils' &&
+      github.repository == 'cymphonikbeatz/vorssaint-utils' &&
       github.event_name == 'push' &&
       github.ref_type == 'tag' &&
-      github.actor == 'vorssaint' &&
-      github.triggering_actor == 'vorssaint'
+      github.actor == 'cymphonikbeatz' &&
+      github.triggering_actor == 'cymphonikbeatz'
     runs-on: macos-26
     timeout-minutes: 30
     permissions:
@@ -74,11 +74,11 @@ jobs:
     needs: preflight
     if: >-
       needs.preflight.result == 'success' &&
-      github.repository == 'vorssaintapp/vorssaint-utils' &&
+      github.repository == 'cymphonikbeatz/vorssaint-utils' &&
       github.event_name == 'push' &&
       github.ref_type == 'tag' &&
-      github.actor == 'vorssaint' &&
-      github.triggering_actor == 'vorssaint'
+      github.actor == 'cymphonikbeatz' &&
+      github.triggering_actor == 'cymphonikbeatz'
     runs-on: macos-26
     timeout-minutes: 30
     environment: release-signing
@@ -170,7 +170,7 @@ jobs:
             fi
             if [[ ! -s "$TARGET" ]]; then
               echo "Missing required showcase media: $TARGET" >&2
-              echo "The app expects https://github.com/vorssaintapp/vorssaint-utils/releases/download/v3.1.4/$ASSET" >&2
+              echo "The app expects https://github.com/cymphonikbeatz/vorssaint-utils/releases/download/v3.1.4/$ASSET" >&2
               exit 1
             fi
           fi
@@ -252,11 +252,11 @@ jobs:
     needs: release
     if: >-
       needs.release.result == 'success' &&
-      github.repository == 'vorssaintapp/vorssaint-utils' &&
+      github.repository == 'cymphonikbeatz/vorssaint-utils' &&
       github.event_name == 'push' &&
       github.ref_type == 'tag' &&
-      github.actor == 'vorssaint' &&
-      github.triggering_actor == 'vorssaint'
+      github.actor == 'cymphonikbeatz' &&
+      github.triggering_actor == 'cymphonikbeatz'
     runs-on: macos-26
     timeout-minutes: 10
     permissions:

@@ -1,6 +1,6 @@
 # Security Policy
 
-Thanks for helping keep Vorssaint and the people who use it safe.
+Thanks for helping keep Cyra and the people who use it safe.
 
 ## Reporting a vulnerability
 
@@ -8,21 +8,15 @@ Please report security vulnerabilities in private. Do not open a public issue, p
 
 Use GitHub's private vulnerability reporting for this repository.
 
-- **[Report a vulnerability privately](https://github.com/vorssaintapp/vorssaint-utils/security/advisories/new)**
+- **[Report a vulnerability privately](https://github.com/cymphonikbeatz/vorssaint-utils/security/advisories/new)**
 
 That opens a private security advisory that only you and the maintainer can see.
-
-<!--
-TODO for the maintainer. If you would like to offer a dedicated security contact
-email alongside GitHub private advisories, add it here. No private email address
-is published in this repository today, so the link above is the canonical route.
--->
 
 When you write it up, please include as much as you can.
 
 - A description of the issue and the impact it could have.
 - Steps to reproduce, or a proof of concept.
-- The Vorssaint version from Settings under About and your macOS version.
+- The Cyra version from Settings under About and your macOS version.
 
 ## What to expect
 
@@ -36,4 +30,4 @@ Security fixes land on the latest released version. Before you report, please ma
 
 ## Scope
 
-Vorssaint runs locally and ships as a signed and notarized macOS app. The reports that matter most are the ones that could affect the integrity of the app or its self update flow, or that could let the app's permissions be misused. Issues in the outside services the app merely talks to, like GitHub's releases API or the speed test endpoint, are best taken to those providers.
+Cyra runs locally and ships as a signed macOS app. The reports that matter most are the ones that could affect the integrity of the app or its self update flow, or that could let the app's permissions be misused. Issues in the outside services the app merely talks to, like GitHub's releases API or the speed test endpoint, are best taken to those providers.

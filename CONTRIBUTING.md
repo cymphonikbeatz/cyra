@@ -1,4 +1,4 @@
-# Contributing to Vorssaint
+# Contributing to Cyra
 
 Thanks for the interest. This project aims to stay small, native and readable.
 
@@ -10,14 +10,14 @@ under GPL-3.0-or-later.
 ## Getting started
 
 ```sh
-git clone https://github.com/vorssaintapp/vorssaint-utils.git
+git clone https://github.com/cymphonikbeatz/vorssaint-utils.git
 cd vorssaint-utils
 ./build.sh                         # build and assemble the bundle
-./build/Vorssaint --selftest       # quick health check (SELFTEST OK)
+./build/stage/Cyra.app/Contents/MacOS/Cyra --selftest       # quick health check (SELFTEST OK)
 ./build.sh --install               # install into /Applications and launch
 ```
 
-You need macOS 14 or newer, Apple Silicon and the Xcode Command Line Tools. The
+You need macOS 14 or newer, Apple Silicon or Intel, and the Xcode Command Line Tools. The
 build is a plain `swiftc` invocation, see `build.sh`, with no Xcode project and
 no external dependencies, reproducible by design. `Package.swift` is there so
 SwiftPM aware editors can index the code.
@@ -35,7 +35,7 @@ Run this once
 ./Tools/setup-signing.sh
 ```
 
-to create a free, self signed identity called `Vorssaint Utils Signing` in a
+to create a free, self signed identity called `Cyra Utils Signing` in a
 dedicated keychain. `build.sh` then signs local builds with it and gives them a
 constant designated requirement, so granted permissions stick across rebuilds.
 It is a local convenience only and never shows up outside the keychain.
@@ -46,7 +46,7 @@ environment, then
 **notarizes** and staples them through `Tools/notarize.sh`, with secrets
 `NOTARY_API_KEY_P8`, `NOTARY_KEY_ID` and `NOTARY_ISSUER_ID`, so downloads open
 with no Gatekeeper warning. `build.sh` prefers the Developer ID identity when it
-is present, with the hardened runtime and `Resources/Vorssaint.entitlements`,
+is present, with the hardened runtime and `Resources/Cyra.entitlements`,
 and falls back to the self signed identity, then to ad hoc.
 
 ## Project layout
@@ -95,22 +95,20 @@ look like `Tp…` and `Te…`, GPU is `Tg…`, and battery runs from `TB0T` to
 `TB2T`. If a new Apple Silicon generation renames the keys, run this
 
 ```sh
-./build/Vorssaint --sensors
+./build/Cyra --sensors
 ```
 
 and open a PR with the dump and the adjusted prefixes.
 
-## Reporting bugs and requesting features
+## Reporting an issue or proposing a change
 
-You do not need to write code to help. Use the issue forms on the
-[new issue](https://github.com/vorssaintapp/vorssaint-utils/issues/new/choose) page.
+Open an issue from the
+[new issue](https://github.com/cymphonikbeatz/cyra/issues/new/choose) page.
 
-- **Bug report.** Include your Vorssaint version from Settings under About and
-  your macOS version, plus clear steps to reproduce. The
-  [troubleshooting guide](docs/TROUBLESHOOTING.md) explains what makes a report
-  useful.
-- **Feature request.** Describe the problem you are trying to solve rather than
-  only a specific solution.
+- **Bug report.** Include your Cyra version from Settings under About and
+  your macOS version. Clear steps to reproduce help immensely.
+- **Feature idea.** Describe what you need and how it helps.
+- **Question or translation fix.** Open an issue or submit a pull request directly.
 
 For general help and every support channel, see [support](SUPPORT.md).
 
