@@ -44,7 +44,7 @@ enum SelfTest {
         }
 
         if let smc = SMCClient() {
-            let keys = smc.keys { $0.hasPrefix("Tp") || $0.hasPrefix("Te") || $0.hasPrefix("Tg") }
+            let keys = smc.keys { $0.hasPrefix("Tp") || $0.hasPrefix("Te") || $0.hasPrefix("Tg") || $0.hasPrefix("TC") }
             if keys.isEmpty {
                 warnings.append("no SMC temperature keys")
             } else if keys.compactMap({ smc.readValue($0) }).isEmpty {
@@ -164,25 +164,25 @@ enum SensorDump {
             exit(1)
         }
         let keys = smc.keys { name in
-            name.hasPrefix("Tp") || name.hasPrefix("Te") || name.hasPrefix("Tg")
+            name.hasPrefix("Tp") || name.hasPrefix("Te") || name.hasPrefix("Tg") || name.hasPrefix("TC")
                 || name.range(of: "^TB[0-9]T$", options: .regularExpression) != nil
         }
         let cpuPlatform = TemperatureSensorSelector.currentPlatform()
         let hasCPUCoreSet = TemperatureSensorSelector.hasCPUCoreSet(platform: cpuPlatform)
-        print("component    key   type   °C")
+        print("component             key   type   °C")
         for key in keys.sorted(by: { $0.name < $1.name }) {
             guard let value = smc.readValue(key), value > 1, value < 125 else { continue }
             let component: String
             if key.name.hasPrefix("TB") {
                 component = "battery"
-            } else if key.name.hasPrefix("Tg") {
+            } else if key.name.hasPrefix("Tg") || key.name == "TCGC" {
                 component = "gpu"
             } else if hasCPUCoreSet {
                 component = TemperatureSensorSelector.isCPUCoreKey(key.name, platform: cpuPlatform) ? "cpu-core" : "cpu-aux"
             } else {
-                component = "cpu"
+                component = TemperatureSensorSelector.sensorLabel(for: key.name)
             }
-            print(String(format: "%-11@  %@  %@  %6.2f",
+            print(String(format: "%-20@  %@  %@  %6.2f",
                          component as NSString, key.name, key.dataType, value))
         }
         exit(0)

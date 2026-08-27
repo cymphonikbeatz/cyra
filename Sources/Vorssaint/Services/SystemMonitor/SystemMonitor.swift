@@ -900,16 +900,28 @@ final class SystemMonitor: ObservableObject {
 
         let all = client.keys { name in
             name.hasPrefix("Tp") || name.hasPrefix("Te") || name.hasPrefix("Tg")
+                || name.hasPrefix("TC")
+                || (cpuTemperaturePlatform == .appleM3Family && name.hasPrefix("Tf"))
                 || name.range(of: "^TB[0-9]T$", options: .regularExpression) != nil
         }
-        cpuKeys = all.filter { $0.name.hasPrefix("Tp") || $0.name.hasPrefix("Te") }
+        cpuKeys = all.filter {
+            TemperatureSensorSelector.isCPUTemperatureKey($0.name, platform: cpuTemperaturePlatform)
+        }
         preferredCPUKeys = cpuKeys.filter {
             TemperatureSensorSelector.isCPUCoreKey($0.name, platform: cpuTemperaturePlatform)
         }
         let preferredNames = Set(preferredCPUKeys.map(\.name))
         fallbackCPUKeys = cpuKeys.filter { !preferredNames.contains($0.name) }
-        gpuKeys = all.filter { $0.name.hasPrefix("Tg") }
+        gpuKeys = all.filter { $0.name.hasPrefix("Tg") || $0.name == "TCGC" }
         batteryKeys = all.filter { $0.name.hasPrefix("TB") }
+    }
+
+    static func sensorLabel(for key: String) -> String {
+        TemperatureSensorSelector.sensorLabel(for: key)
+    }
+
+    func sensorLabel(for key: String) -> String {
+        TemperatureSensorSelector.sensorLabel(for: key)
     }
 
     static let fanTelemetryCount: Int = {

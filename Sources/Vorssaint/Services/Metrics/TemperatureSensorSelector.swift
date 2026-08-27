@@ -99,6 +99,26 @@ enum TemperatureSensorSelector {
         }
     }
 
+    private static let intelCPUCoreKeys: Set<String> = [
+        "TC0P", "TC0E", "TC0F",
+        "TC1C", "TC2C", "TC3C", "TC4C",
+        "TC5C", "TC6C", "TC7C", "TC8C",
+        "TCXC",
+    ]
+
+    private static let intelSensorLabels: [String: String] = [
+        "TC0P": "CPU Package",
+        "TC0E": "CPU Die",
+        "TC0F": "CPU Die 2",
+        "TC1C": "CPU Core 1",
+        "TC2C": "CPU Core 2",
+        "TC3C": "CPU Core 3",
+        "TC4C": "CPU Core 4",
+        "TCXC": "PECI CPU",
+        "TCGC": "Integrated Graphics",
+        "TCSA": "System Agent",
+    ]
+
     static func isCPUCoreKey(_ key: String, platform: CPUTemperaturePlatform) -> Bool {
         switch platform {
         case .appleM1Family:
@@ -112,14 +132,47 @@ enum TemperatureSensorSelector {
         case .appleM5Family:
             return appleM5CPUCoreKeys.contains(key)
         case .generic:
-            return false
+            return intelCPUCoreKeys.contains(key)
         }
     }
 
     static func isCPUTemperatureKey(_ key: String,
                                     platform: CPUTemperaturePlatform) -> Bool {
-        if key.hasPrefix("Tp") || key.hasPrefix("Te") { return true }
+        if key.hasPrefix("Tp") || key.hasPrefix("Te") || key.hasPrefix("TC") { return true }
         return platform == .appleM3Family && key.hasPrefix("Tf")
+    }
+
+    static func sensorLabel(for key: String) -> String {
+        if let label = intelSensorLabels[key] {
+            return label
+        }
+        if key.hasPrefix("TC"), let match = key.range(of: "^TC([0-9]+)C$", options: .regularExpression) {
+            let coreNum = key[match].dropFirst(2).dropLast()
+            return "CPU Core \(coreNum)"
+        }
+        if key.hasPrefix("TC") {
+            return "CPU"
+        }
+        if key.hasPrefix("Tp") {
+            return "CPU Performance Core"
+        }
+        if key.hasPrefix("Te") {
+            return "CPU Efficiency Core"
+        }
+        if key.hasPrefix("Tf") {
+            return "CPU Core"
+        }
+        if key.hasPrefix("Tg") {
+            return "GPU"
+        }
+        if key.hasPrefix("TB") {
+            return "Battery"
+        }
+        return key
+    }
+
+    static func label(for key: String) -> String {
+        sensorLabel(for: key)
     }
 
     static func stabilizedTemperature(_ reading: Double?,

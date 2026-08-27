@@ -1365,6 +1365,25 @@ struct MetricsTests {
             platform: .generic
         )
         expectClose(genericCPU ?? -1, 51.6, "generic CPU sensor selection preserves previous hottest behavior")
+        expect(TemperatureSensorSelector.isCPUTemperatureKey("TC0P", platform: .generic)
+                && TemperatureSensorSelector.isCPUTemperatureKey("TC1C", platform: .generic)
+                && TemperatureSensorSelector.isCPUTemperatureKey("TCXC", platform: .generic)
+                && TemperatureSensorSelector.isCPUTemperatureKey("TCGC", platform: .generic)
+                && TemperatureSensorSelector.isCPUTemperatureKey("TCSA", platform: .generic),
+               "generic discovery includes Intel TC* temperature keys")
+        expectEqual(TemperatureSensorSelector.sensorLabel(for: "TC0P"), "CPU Package", "TC0P maps to CPU Package")
+        expectEqual(TemperatureSensorSelector.sensorLabel(for: "TC0E"), "CPU Die", "TC0E maps to CPU Die")
+        expectEqual(TemperatureSensorSelector.sensorLabel(for: "TC0F"), "CPU Die 2", "TC0F maps to CPU Die 2")
+        expectEqual(TemperatureSensorSelector.sensorLabel(for: "TC1C"), "CPU Core 1", "TC1C maps to CPU Core 1")
+        expectEqual(TemperatureSensorSelector.sensorLabel(for: "TC2C"), "CPU Core 2", "TC2C maps to CPU Core 2")
+        expectEqual(TemperatureSensorSelector.sensorLabel(for: "TCXC"), "PECI CPU", "TCXC maps to PECI CPU")
+        expectEqual(TemperatureSensorSelector.sensorLabel(for: "TCGC"), "Integrated Graphics", "TCGC maps to Integrated Graphics")
+        expectEqual(TemperatureSensorSelector.sensorLabel(for: "TCSA"), "System Agent", "TCSA maps to System Agent")
+        let intelCPU = TemperatureSensorSelector.displayedCPUTemperature(
+            readings: [("TC0P", 50.0), ("TC1C", 52.0), ("TC2C", 54.0), ("TCSA", 48.0)],
+            platform: .generic
+        )
+        expectClose(intelCPU ?? -1, 54.0, "generic Intel CPU selection uses hottest core")
 
         // MARK: Hot CPU alert
 
