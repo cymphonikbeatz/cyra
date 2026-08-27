@@ -30,11 +30,17 @@ else {
 let w = srcRep.pixelsWide
 let h = srcRep.pixelsHigh
 
-// The squircle has a very dark (near-black) background and a pure-white mark.
-// Threshold: keep pixels where any channel > 40/255 (~16 %), treating them as
-// mark ink.  Retain original alpha so genuine transparency in the source is
-// respected.  Output alpha = source alpha × luminance-derived mask.
-let threshold: CGFloat = 0.16
+// The squircle icon has a dark background (luminance ~0.02) and a white mark.
+// The mark itself is located within x, y in [175..845]. Everything outside
+// this region belongs to the squircle container, rounded corners, or rim
+// specular highlights and must be discarded.
+//
+// Inside the mark region:
+// - Background floor: luminance <= 0.035 (~9/255) is treated as pure transparent.
+// - Anti-aliasing ramp: luminance between 0.035 and 0.94 smoothly ramps alpha from 0 to 1.
+let bgFloor: CGFloat = 0.035
+let peakFloor: CGFloat = 0.94
+let markRegion = CGRect(x: 175, y: 175, width: 670, height: 670)
 
 guard let dst = NSBitmapImageRep(
     bitmapDataPlanes: nil,
@@ -48,17 +54,34 @@ else {
     exit(1)
 }
 
+let clearColor = NSColor(calibratedRed: 0, green: 0, blue: 0, alpha: 0)
+
 for y in 0..<h {
     for x in 0..<w {
-        guard let c = srcRep.colorAt(x: x, y: y) else { continue }
+        guard markRegion.contains(CGPoint(x: x, y: y)) else {
+            dst.setColor(clearColor, atX: x, y: y)
+            continue
+        }
+        guard let c = srcRep.colorAt(x: x, y: y) else {
+            dst.setColor(clearColor, atX: x, y: y)
+            continue
+        }
+
         // Perceptual luminance of the source pixel
         let lum = 0.2126 * c.redComponent + 0.7152 * c.greenComponent + 0.0722 * c.blueComponent
-        // Use luminance directly as the mark opacity; this gracefully handles
-        // anti-aliased edges (grey fringe → semi-transparent white) instead of
-        // a hard cut that would produce jagged edges.
-        let alpha = min(c.alphaComponent, lum / (1.0 - threshold) )
-        let clamped = max(0, min(1, alpha))
-        dst.setColor(NSColor(calibratedRed: 1, green: 1, blue: 1, alpha: clamped), atX: x, y: y)
+        if lum <= bgFloor {
+            dst.setColor(clearColor, atX: x, y: y)
+            continue
+        }
+
+        // Smoothly interpolate alpha from 0 at bgFloor to 1.0 at peakFloor
+        let normAlpha = (lum - bgFloor) / (peakFloor - bgFloor)
+        let alpha = min(c.alphaComponent, max(0, min(1, normAlpha)))
+        if alpha <= 0.001 {
+            dst.setColor(clearColor, atX: x, y: y)
+        } else {
+            dst.setColor(NSColor(calibratedRed: 1, green: 1, blue: 1, alpha: alpha), atX: x, y: y)
+        }
     }
 }
 
