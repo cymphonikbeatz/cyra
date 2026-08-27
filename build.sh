@@ -354,7 +354,8 @@ if (( DEV )); then
 else
     rm -rf build
     mkdir -p build
-    swiftc "${APP_OPTIMIZATION_FLAGS[@]}" -target "$TARGET" -sdk "$SDK" \
+    swiftc "${APP_OPTIMIZATION_FLAGS[@]}" -j "$(sysctl -n hw.logicalcpu)" \
+        -target "$TARGET" -sdk "$SDK" \
         "${SDK_COMPAT_FLAGS[@]}" "${VM_STATISTICS_COMPAT_FLAGS[@]}" "${BUILD_VARIANT_FLAGS[@]}" \
         "${APP_SOURCES[@]}" -o "build/$EXECUTABLE"
     ln -sf "$EXECUTABLE" "build/Vorssaint"
