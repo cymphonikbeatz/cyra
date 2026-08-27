@@ -2,16 +2,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Vorssaint
 
-# Creates a stable, self-signed code-signing identity named "Vorssaint Utils
+# Creates a stable, self-signed code-signing identity named "Cyra Utils
 # Signing" in a dedicated keychain. build.sh uses it automatically, giving every
 # build the same code signature — so macOS keeps granted permissions
 # (Accessibility, Screen Recording) across updates instead of re-prompting.
-#
-# This identity name keeps its original "Vorssaint Utils Signing" on purpose: it
-# is the lookup key build.sh matches, and the released app's designated
-# requirement is pinned to this exact certificate. Renaming it would change that
-# requirement and drop every user's granted permissions. The name lives only in
-# the keychain and codesign output, never in anything the app shows.
 #
 # Free, offline, and idempotent (re-running is a no-op once the identity exists).
 # It does NOT replace Apple notarization: downloaded builds still show Gatekeeper's
@@ -50,6 +44,7 @@ security create-keychain -p "$KCPASS" "$KC"
 security set-keychain-settings "$KC"            # no auto-lock
 security unlock-keychain -p "$KCPASS" "$KC"
 security import "$WORK/id.p12" -k "$KC" -P "$KCPASS" -T /usr/bin/codesign
+security add-trusted-cert -d -r trustRoot -p codeSign -k "$KC" "$WORK/cert.pem"
 security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KCPASS" "$KC" >/dev/null 2>&1
 EXISTING=$(security list-keychains -d user | sed 's/"//g' | xargs)
 security list-keychains -d user -s "$KC" ${=EXISTING}
