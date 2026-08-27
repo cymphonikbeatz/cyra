@@ -81,7 +81,7 @@ final class WhatsAppDownloadOrganizer: ObservableObject {
         Self.validUndoTransactions().last != nil
     }
 
-    private let queue = DispatchQueue(label: "com.vorssaint.whatsapp-organizer",
+    private let queue = DispatchQueue(label: "com.cyra.whatsapp-organizer",
                                       qos: .utility)
     private var directorySource: DispatchSourceFileSystemObject?
     private var timer: Timer?

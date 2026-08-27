@@ -38,11 +38,12 @@ enum CleanerSupport {
     static func isProtectedBundleID(_ id: String) -> Bool {
         let lowered = id.lowercased()
         let wrapped = "." + lowered + "."
-        if wrapped.contains(".com.apple.") || wrapped.contains(".com.vorssaint.")
+        if wrapped.contains(".com.apple.") || wrapped.contains(".com.cyra.")
+            || wrapped.contains(".com.vorssaint.")
             || wrapped.contains(".developer.apple.") || wrapped.contains(".is.workflow.") {
             return true
         }
-        if lowered == "com.apple" || lowered.hasPrefix("vorss.") {
+        if lowered == "com.apple" || lowered.hasPrefix("vorss.") || lowered.hasPrefix("cyra.") {
             return true
         }
         return sharedInfrastructurePrefixes.contains { lowered.hasPrefix($0) }

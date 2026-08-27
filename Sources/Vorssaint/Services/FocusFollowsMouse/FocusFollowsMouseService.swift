@@ -13,7 +13,7 @@ final class FocusFollowsMouseService {
         AXUIElementSetMessagingTimeout(element, 0.25)
         return element
     }()
-    private let queryQueue = DispatchQueue(label: "com.vorssaint.focus-follows-mouse")
+    private let queryQueue = DispatchQueue(label: "com.cyra.focus-follows-mouse")
     private var timer: Timer?
     private var mouseMonitor: Any?
     private var observers: [NSObjectProtocol] = []

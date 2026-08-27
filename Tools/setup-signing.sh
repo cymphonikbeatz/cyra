@@ -21,9 +21,9 @@
 # Run this only to get the same permission-preserving behavior for local builds.
 set -euo pipefail
 
-IDENTITY="Vorssaint Utils Signing"
-KC="$HOME/Library/Keychains/vorssaint-signing.keychain-db"
-KCPASS="vorssaint-signing"
+IDENTITY="Cyra Utils Signing"
+KC="$HOME/Library/Keychains/cyra-signing.keychain-db"
+KCPASS="cyra-signing"
 
 if security find-identity -p codesigning 2>/dev/null | grep -q "$IDENTITY"; then
     echo "✓ Signing identity already installed."
@@ -34,7 +34,7 @@ WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
 
 openssl req -x509 -newkey rsa:2048 -keyout "$WORK/key.pem" -out "$WORK/cert.pem" -days 3650 -nodes \
-    -subj "/CN=$IDENTITY/O=Vorssaint" \
+    -subj "/CN=$IDENTITY/O=Cyra" \
     -addext "keyUsage=critical,digitalSignature" \
     -addext "extendedKeyUsage=critical,codeSigning" \
     -addext "basicConstraints=critical,CA:false" 2>/dev/null

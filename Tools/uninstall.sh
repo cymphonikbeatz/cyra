@@ -9,11 +9,12 @@
 # Also clears the pre-rename "Vorssaint Utils.app" if it is still around.
 set -uo pipefail
 
-BUNDLE="com.vorssaint.utils"
-APP="/Applications/Vorssaint.app"
-LEGACY_APP="/Applications/Vorssaint Utils.app"
+BUNDLE="com.cyra.utils"
+APP="/Applications/Cyra.app"
+LEGACY_APP="/Applications/Vorssaint.app"
 
 echo "▸ Quitting…"
+pkill -x Cyra 2>/dev/null || true
 pkill -x Vorssaint 2>/dev/null || true
 pkill -x VorssaintUtils 2>/dev/null || true
 sleep 0.5
@@ -24,7 +25,7 @@ sleep 0.5
 # deleting the app below cannot reach it. Only the binary can drop it, and the
 # check after the loop settles what its absence or failure left behind.
 detached=1
-for candidate in "$APP/Contents/MacOS/Vorssaint" "$LEGACY_APP/Contents/MacOS/VorssaintUtils"; do
+for candidate in "$APP/Contents/MacOS/Cyra" "$LEGACY_APP/Contents/MacOS/Vorssaint" "/Applications/Vorssaint Utils.app/Contents/MacOS/VorssaintUtils"; do
     if [[ -x "$candidate" ]]; then
         echo "▸ Detaching the fan helper and login item, restoring sleep…"
         if "$candidate" --uninstall; then detached=0; fi

@@ -52,7 +52,7 @@ final class DiskProtectionService: ObservableObject {
             complete(diskID: disk.id, state: .failed(fallbackError.localizedDescription))
             return
         }
-        let queue = DispatchQueue(label: "com.vorssaint.utils.disk-eject.\(ejectBSDName)", qos: .utility)
+        let queue = DispatchQueue(label: "com.cyra.utils.disk-eject.\(ejectBSDName)", qos: .utility)
         DASessionSetDispatchQueue(session, queue)
 
         guard let daDisk = DADiskCreateFromBSDName(kCFAllocatorDefault, session, "/dev/\(ejectBSDName)") else {

@@ -32,7 +32,7 @@ private final class RecorderSession: NSObject, RecorderCaptureEngineDelegate {
     private let microphone: RecorderMicrophoneCapture?
     private let pointer: RecorderPointerSampler
     private let typing: RecorderTypingSampler
-    private let writerQueue = DispatchQueue(label: "com.vorssaint.recorder.writer",
+    private let writerQueue = DispatchQueue(label: "com.cyra.recorder.writer",
                                             qos: .userInitiated)
     private let startGate = RecorderStartGate()
     /// Immutable for the whole session, which is what makes it safe to touch

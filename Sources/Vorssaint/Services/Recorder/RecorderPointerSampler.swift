@@ -79,7 +79,7 @@ final class RecorderPointerSampler {
             self?.loop(generation: generation, startedAt: startedAt)
         }
         thread.qualityOfService = .userInteractive
-        thread.name = "com.vorssaint.recorder.pointer"
+        thread.name = "com.cyra.recorder.pointer"
         self.thread = thread
         thread.start()
     }

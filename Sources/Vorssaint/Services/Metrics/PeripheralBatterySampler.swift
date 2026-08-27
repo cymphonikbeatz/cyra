@@ -7,7 +7,7 @@ import IOKit
 
 final class PeripheralBatterySampler {
     private let lock = NSLock()
-    private let bluetoothQueue = DispatchQueue(label: "com.vorssaint.peripheral-battery.bluetooth", qos: .utility)
+    private let bluetoothQueue = DispatchQueue(label: "com.cyra.peripheral-battery.bluetooth", qos: .utility)
     private var cachedDevices: [PeripheralBatteryDevice] = []
     private var cachedAt: TimeInterval = 0
     private var cachedBluetoothDevices: [PeripheralBatteryDevice] = []

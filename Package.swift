@@ -5,7 +5,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "Vorssaint",
+    name: "Cyra",
     platforms: [.macOS(.v14)],
     targets: [
         .systemLibrary(
@@ -13,7 +13,7 @@ let package = Package(
             path: "Sources/VMStatisticsCompat"
         ),
         .executableTarget(
-            name: "Vorssaint",
+            name: "Cyra",
             dependencies: ["VMStatisticsCompat"],
             path: "Sources/Vorssaint"
         )

@@ -67,7 +67,7 @@ final class ClipboardHistoryService: ObservableObject {
     /// Writes coalesce per mutation cycle; the JSON encode and the disk write
     /// stay off the main thread (a full history of long texts is real work),
     /// serialized so blobs land in mutation order.
-    private static let persistQueue = DispatchQueue(label: "com.vorssaint.utils.clipboard-persist",
+    private static let persistQueue = DispatchQueue(label: "com.cyra.utils.clipboard-persist",
                                                     qos: .utility)
     private var persistScheduled = false
     /// True while the history still lives in the legacy UserDefaults blob;

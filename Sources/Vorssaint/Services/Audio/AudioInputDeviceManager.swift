@@ -41,7 +41,7 @@ final class AudioInputDeviceManager: ObservableObject {
     /// is delivered here. A device being reconfigured can hold a property read
     /// for as long as the audio daemon holds the device, and that is exactly
     /// the moment the listeners fire.
-    private let halQueue = DispatchQueue(label: "com.vorssaint.utils.audioinput.hal", qos: .userInitiated)
+    private let halQueue = DispatchQueue(label: "com.cyra.utils.audioinput.hal", qos: .userInitiated)
     /// The system input as it was before this app first pointed it somewhere
     /// else, and the device it was pointed at. Choosing a microphone here
     /// changes a system setting, so switching the feature off or quitting puts

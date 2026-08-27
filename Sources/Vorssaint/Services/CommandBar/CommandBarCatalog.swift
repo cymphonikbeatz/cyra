@@ -1411,7 +1411,7 @@ enum CommandBarCatalog {
     /// Puts the selection on the shelf without disturbing what the person has
     /// copied: a pasteboard of our own carries it across.
     private static func keepOnShelf(_ text: String) {
-        let board = NSPasteboard(name: NSPasteboard.Name("com.vorssaint.commandbar.selection"))
+        let board = NSPasteboard(name: NSPasteboard.Name("com.cyra.commandbar.selection"))
         board.clearContents()
         board.setString(text, forType: .string)
         guard ShelfService.shared.accept(pasteboard: board) else {

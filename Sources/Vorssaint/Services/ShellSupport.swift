@@ -138,7 +138,7 @@ enum Sudoers {
     /// disable (launch recovery, a session ending) could resurrect a stale
     /// "1" after the flag was already cleared, leaving lid sleep off with
     /// nothing left to repair it.
-    private static let sleepStateQueue = DispatchQueue(label: "com.vorssaint.utils.pmset-state")
+    private static let sleepStateQueue = DispatchQueue(label: "com.cyra.utils.pmset-state")
 
     /// Proves the passwordless path by running it: re-applying the current
     /// SleepDisabled state through `sudo -n` changes nothing on the system and

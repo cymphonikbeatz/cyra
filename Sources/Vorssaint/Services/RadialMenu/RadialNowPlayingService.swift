@@ -298,7 +298,7 @@ private final class MediaRemoteNowPlayingBridge {
     private typealias IsPlayingCallback = @convention(block) (Bool) -> Void
     private typealias IsPlayingFunction = @convention(c) (DispatchQueue, @escaping IsPlayingCallback) -> Void
 
-    private let queue = DispatchQueue(label: "com.vorssaint.radial-now-playing", qos: .userInitiated)
+    private let queue = DispatchQueue(label: "com.cyra.radial-now-playing", qos: .userInitiated)
     private let handle: UnsafeMutableRawPointer?
     private let getInfo: InfoFunction?
     private let getPID: PIDFunction?
