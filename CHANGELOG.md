@@ -10,6 +10,7 @@ All notable changes to this project are documented here. The format follows
 - Text snippets now include a visual date and time variable builder to configure formatting and timezones with live previews. Thanks to @tenbux.
 
 ### Fixed
+- Uninstalling a feature now removes it from Command Bar pins in Settings.
 - Screen capture settings now display each capture mode in its own section, keeping shortcuts directly within their settings and preventing sidebar layout shifting on narrower windows or translations. Thanks to @PathGao.
 - Pressing Escape in the clipboard history quick panel now clears batch selection or closes the panel directly instead of closing the preview pane first. Thanks to @naveenkrdy.
 - Adding points to a custom fan curve now updates and saves the curve instead of discarding the new point.

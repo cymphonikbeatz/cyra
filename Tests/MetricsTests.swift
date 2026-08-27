@@ -16354,6 +16354,16 @@ struct MetricsTests {
                                                  available: ["app.chat", "action.a"])
                 == ["app.chat"],
                "the empty bar leads with the pins that still exist")
+        expect(CommandBarPreferences.listedPins(
+                    ["action.cleaningMode", "app.chat", "settings.cleaningMode"],
+                    present: ["app.chat"])
+                == ["app.chat"],
+               "an uninstalled feature is not listed as a pin")
+        expect(CommandBarPreferences.listedPins(
+                    ["action.cleaningMode", "app.gone"],
+                    present: ["action.cleaningMode"])
+                == ["action.cleaningMode", "app.gone"],
+               "an app that left this Mac still appears so its pin can be removed")
         expect(CommandBarPreferences.pinTieBreak < 700,
                "a pin breaks a tie and never jumps over a better match")
         expect(CommandBarPreferences.aliasHit("codex", query: "codex") == .exact
