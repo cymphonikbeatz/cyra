@@ -70,14 +70,17 @@ arrow.stroke()
 
 NSGraphicsContext.restoreGraphicsState()
 
-// Embed the brand mark watermark faintly behind the title (optional, subtle).
+// Embed the brand mark watermark faintly below the title (subtle brand accent).
 if let logo = NSImage(contentsOfFile: logoPath) {
-    NSGraphicsContext.saveGraphicsState()
-    NSGraphicsContext.current = ctx
-    ctx.cgContext.scaleBy(x: scale, y: scale)
-    let mark = NSRect(x: widthPt / 2 - 16, y: heightPt - 112, width: 32, height: 32)
-    logo.draw(in: mark, from: .zero, operation: .sourceOver, fraction: 0.12)
-    NSGraphicsContext.restoreGraphicsState()
+    let markSize: CGFloat = 36
+    let mark = NSRect(x: (widthPt - markSize) / 2, y: heightPt - 114, width: markSize, height: markSize)
+    if let cgImage = logo.cgImage(forProposedRect: nil, context: nil, hints: nil) {
+        ctx.cgContext.saveGState()
+        ctx.cgContext.clip(to: mark, mask: cgImage)
+        NSColor(calibratedRed: 0.40, green: 0.34, blue: 0.78, alpha: 0.18).setFill()
+        mark.fill()
+        ctx.cgContext.restoreGState()
+    }
 }
 
 guard let data = rep.representation(using: .png, properties: [:]) else { exit(1) }
