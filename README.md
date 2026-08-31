@@ -140,7 +140,11 @@ The rest bends the same way: panel sections reorder and hide, the compact layout
 
 ## Install
 
-Grab the disk image from the [releases page](https://github.com/cymphonikbeatz/cyra-utility/releases) and drag Cyra into Applications.
+Grab the disk image from the [releases page](https://github.com/cymphonikbeatz/cyra-utility/releases) (or direct download [Cyra.dmg](https://github.com/cymphonikbeatz/cyra-utility/releases/latest/download/Cyra.dmg)) and drag Cyra into Applications.
+
+> **Note on macOS Gatekeeper:**
+> Because Cyra is an independent open-source project and not yet notarized with a paid Apple Developer ID, macOS may show a *"Cyra cannot be opened because the developer cannot be verified"* warning on first launch.
+> To open it: **Right-click (or Control-click) `Cyra.app` in Applications → click Open → click Open** (or go to **System Settings → Privacy & Security → scroll down and click Open Anyway**). You only need to do this once.
 
 Builds are code-signed so your granted macOS permissions survive across updates.
 

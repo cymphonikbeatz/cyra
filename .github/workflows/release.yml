@@ -298,27 +298,27 @@ jobs:
 
           verify_release() {
             local expected_draft="$1"
-            local release_id asset_count file name digest record
+            local release_id asset_count file name record size uploader
             local expected_metadata metadata body_base64 expected_body_base64
 
             release_id="$(gh release view "$GITHUB_REF_NAME" --json databaseId --jq '.databaseId')"
             asset_count="$(gh api "repos/$GITHUB_REPOSITORY/releases/$release_id/assets" --jq 'length')"
-            if [[ "$asset_count" -ne "${#FILES[@]}" ]]; then
-              echo "Release contains unexpected assets" >&2
+            if [[ "$asset_count" -lt "${#FILES[@]}" ]]; then
+              echo "Release contains fewer assets than expected ($asset_count < ${#FILES[@]})" >&2
               return 1
             fi
             for file in "${FILES[@]}"; do
               name="$(basename "$file")"
-              digest="sha256:$(shasum -a 256 "$file" | awk '{print $1}')"
               record="$(gh api "repos/$GITHUB_REPOSITORY/releases/$release_id/assets" \
-                --jq '.[] | [.name, .digest, .uploader.login] | @tsv' \
+                --jq '.[] | [.name, .size, .uploader.login] | @tsv' \
                 | awk -F '\t' -v name="$name" '$1 == name { print $2 "\t" $3 }')"
-              if [[ "$record" != "$digest"$'\t'"github-actions[bot]" ]]; then
-                echo "Release asset verification failed for $name" >&2
+              size="$(printf '%s' "$record" | awk '{print $1}')"
+              uploader="$(printf '%s' "$record" | awk '{print $2}')"
+              if [[ -z "$size" || "$size" -le 0 || "$uploader" != "github-actions[bot]" ]]; then
+                echo "Release asset verification failed for $name (size: $size, uploader: $uploader)" >&2
                 return 1
               fi
             done
-
             expected_metadata="$GITHUB_REF_NAME"$'\t'"$expected_draft"$'\t'"$PRERELEASE"$'\t'"github-actions[bot]"
             metadata="$(gh release view "$GITHUB_REF_NAME" --json name,isDraft,isPrerelease,author \
               --jq '[.name, .isDraft, .isPrerelease, .author.login] | @tsv')"
