@@ -15,7 +15,7 @@ let package = Package(
         .executableTarget(
             name: "Cyra",
             dependencies: ["VMStatisticsCompat"],
-            path: "Sources/Vorssaint"
+            path: "Sources/Cyra"
         )
     ]
 )

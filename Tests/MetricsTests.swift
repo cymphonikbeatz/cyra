@@ -1856,7 +1856,7 @@ struct MetricsTests {
         // scope must be assigned before the layout pass or a window-scoped
         // panel is sized for the grouped layout on its first frame.
         let switcherSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/Switcher/AppSwitcher.swift",
+            contentsOfFile: "Sources/Cyra/Services/Switcher/AppSwitcher.swift",
             encoding: .utf8)) ?? ""
         // Ends on whatever declaration comes next rather than naming the
         // neighbour: a rename would find no separator, leave the slice running
@@ -2436,7 +2436,7 @@ struct MetricsTests {
         // gesture from an ordinary one -- which is the thing being fixed, so a
         // branch is what this guards against.
         let placeSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/Switcher/WindowActivator.swift",
+            contentsOfFile: "Sources/Cyra/Services/Switcher/WindowActivator.swift",
             encoding: .utf8)) ?? ""
         let placeBody = (placeSource.components(separatedBy: "static func place(_ item: SwitcherItem")
             .last ?? "").components(separatedBy: "\n    @discardableResult").first ?? ""
@@ -2462,7 +2462,7 @@ struct MetricsTests {
         // title both over the thumbnail and under it. In a panel every card
         // belongs to one app, so both said the same thing once per window.
         let dockPreviewCardSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/UI/Switcher/DockPreviewPanelView.swift",
+            contentsOfFile: "Sources/Cyra/UI/Switcher/DockPreviewPanelView.swift",
             encoding: .utf8)) ?? ""
         let dockPreviewCardCode = dockPreviewCardSource
             .split(separator: "\n", omittingEmptySubsequences: false)
@@ -2860,7 +2860,7 @@ struct MetricsTests {
         // These AppKit owners are not part of the pure-helper test binary, so
         // pin that neither caller can consume a parked status-item frame.
         let statusAnchorAppDelegateSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/App/AppDelegate.swift",
+            contentsOfFile: "Sources/Cyra/App/AppDelegate.swift",
             encoding: .utf8)) ?? ""
         let stripCommentLines: (String) -> String = {
             $0.split(separator: "\n", omittingEmptySubsequences: false)
@@ -2874,7 +2874,7 @@ struct MetricsTests {
             .components(separatedBy: "ShelfService.shared.statusItemFrameProvider =").last ?? "")
             .components(separatedBy: "\n        }").first ?? "")
         let statusControllerSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/App/StatusItemController.swift",
+            contentsOfFile: "Sources/Cyra/App/StatusItemController.swift",
             encoding: .utf8)) ?? ""
         let statusHitTestCode = stripCommentLines((statusControllerSource
             .components(separatedBy: "func containsStatusItem(at screenPoint: NSPoint) -> Bool {").last ?? "")
@@ -4073,7 +4073,7 @@ struct MetricsTests {
         // first: the note above the probe names the attribute it avoids, and a
         // check that cannot tell prose from a call would go red for it.
         let autoQuitServiceCode = ((try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/AutoQuit/AutoQuitService.swift",
+            contentsOfFile: "Sources/Cyra/Services/AutoQuit/AutoQuitService.swift",
             encoding: .utf8)) ?? "")
             .components(separatedBy: "\n")
             .filter { !$0.trimmingCharacters(in: .whitespaces).hasPrefix("//") }
@@ -7324,7 +7324,7 @@ struct MetricsTests {
         // what the service does with the third state is pinned by source. Both
         // needles are public symbols, not a line's spelling.
         let launchAtLoginSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/LaunchAtLogin.swift",
+            contentsOfFile: "Sources/Cyra/Services/LaunchAtLogin.swift",
             encoding: .utf8)) ?? ""
         expect(launchAtLoginSource.contains(".requiresApproval"),
                "an approval-pending login item is read as its own state")
@@ -7462,12 +7462,12 @@ struct MetricsTests {
         // Both panels show windows of the same kind, so a name too long for its
         // room behaves the same in each. One view, two callers, two widths.
         let scrollingTitleSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/UI/Switcher/ScrollingTitle.swift",
+            contentsOfFile: "Sources/Cyra/UI/Switcher/ScrollingTitle.swift",
             encoding: .utf8)) ?? ""
         expect(scrollingTitleSource.contains("struct ScrollingTitle: View"),
                "the scrolling name is one view, not a copy in each panel")
         let switcherCardSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/UI/Switcher/SwitcherView.swift",
+            contentsOfFile: "Sources/Cyra/UI/Switcher/SwitcherView.swift",
             encoding: .utf8)) ?? ""
         expect(switcherCardSource.contains("ScrollingTitle(")
                && dockPreviewCardSource.contains("ScrollingTitle("),
@@ -7860,7 +7860,7 @@ struct MetricsTests {
         // rather than the bare call it replaced. Asserted positively: the call
         // it must not use is named in the doc comment right above it.
         let dockClickSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/DockClick/DockClickService.swift",
+            contentsOfFile: "Sources/Cyra/Services/DockClick/DockClickService.swift",
             encoding: .utf8)) ?? ""
         expect(dockClickSource.contains("NSApp.yieldActivation(to: app)"),
                "a Dock click restore yields this app's activation first")
@@ -9298,7 +9298,7 @@ struct MetricsTests {
         // travel as `prompt:` and the label has to be hidden for a field to
         // own its whole row.
         let urlCleanerSettingsSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/UI/Settings/URLCleanerSettings.swift",
+            contentsOfFile: "Sources/Cyra/UI/Settings/URLCleanerSettings.swift",
             encoding: .utf8)) ?? ""
         expect(!urlCleanerSettingsSource.contains("TextField(l10n.s."),
                "no Clean URL field spends its row on a label instead of the field")
@@ -10488,7 +10488,7 @@ struct MetricsTests {
             "appManagement",
         ], "permission portal contains every supported permission")
         let onboardingViewSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/UI/Onboarding/OnboardingView.swift",
+            contentsOfFile: "Sources/Cyra/UI/Onboarding/OnboardingView.swift",
             encoding: .utf8)) ?? ""
         let additionalPermissionsAlignment =
             #"DisclosureGroup\(isExpanded: \$showingOtherPermissions\) \{\s+"#
@@ -10548,10 +10548,10 @@ struct MetricsTests {
                "no first-run preset installs a feature whose hardware the Mac may lack")
 
         let featureHubSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/UI/Settings/FeatureHubSettings.swift",
+            contentsOfFile: "Sources/Cyra/UI/Settings/FeatureHubSettings.swift",
             encoding: .utf8)) ?? ""
         let onboardingFeatureSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/UI/Onboarding/OnboardingView.swift",
+            contentsOfFile: "Sources/Cyra/UI/Onboarding/OnboardingView.swift",
             encoding: .utf8)) ?? ""
         expect(featureHubSource.contains("installBlockedReason")
                 && onboardingFeatureSource.contains("installBlockedReason"),
@@ -11660,7 +11660,7 @@ struct MetricsTests {
         // AppKit reached from below the line would be a main thread violation
         // on every hotplug, wake and panel open.
         let brightnessSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/Display/BrightnessService.swift",
+            contentsOfFile: "Sources/Cyra/Services/Display/BrightnessService.swift",
             encoding: .utf8)) ?? ""
         let brightnessWorkQueueHalf = brightnessSource
             .components(separatedBy: "// MARK: - Rebuild (work queue)").last ?? ""
@@ -13371,7 +13371,7 @@ struct MetricsTests {
                                       "ScreenRecorderSettings"]
             .map { name -> String in
                 let text = (try? String(
-                    contentsOfFile: "Sources/Vorssaint/UI/Settings/\(name).swift",
+                    contentsOfFile: "Sources/Cyra/UI/Settings/\(name).swift",
                     encoding: .utf8)) ?? ""
                 return text.components(separatedBy: "\n")
                     .filter { !$0.trimmingCharacters(in: .whitespaces).hasPrefix("//") }
@@ -13448,7 +13448,7 @@ struct MetricsTests {
                                                             capturePending: false),
                "the capture chooser disappears for the whole drag and while capture is pending")
         let captureSelectionSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/QuickTools/ScreenshotSelectionController.swift",
+            contentsOfFile: "Sources/Cyra/Services/QuickTools/ScreenshotSelectionController.swift",
             encoding: .utf8)) ?? ""
         expect(captureSelectionSource.contains(
             "override func mouseExited(with event: NSEvent) {\n        refreshGuideVisibility()"),
@@ -14168,7 +14168,7 @@ struct MetricsTests {
                 && GlobalShortcutRole.scratchpad.feature == .scratchpad,
                "the scratchpad shortcut role gates on its toggle and feature")
         let scratchpadViewSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/UI/Scratchpad/ScratchpadView.swift",
+            contentsOfFile: "Sources/Cyra/UI/Scratchpad/ScratchpadView.swift",
             encoding: .utf8)) ?? ""
         let scratchpadHitTargetContracts = [
             "Image(systemName: \"plus\")\n                    .font(.system(size: 12, weight: .semibold))\n                    .frame(width: 22, height: 22)\n                    .contentShape(Rectangle())",
@@ -14188,11 +14188,11 @@ struct MetricsTests {
         let borderlessMenuException = "KillProcess/KillProcessView"
         var unpinnedBorderlessMenus: [String] = []
         let uiFiles = FileManager.default
-            .enumerator(atPath: "Sources/Vorssaint/UI")?
+            .enumerator(atPath: "Sources/Cyra/UI")?
             .compactMap { $0 as? String }
             .filter { $0.hasSuffix(".swift") && !$0.contains(" 2") } ?? []
         for file in uiFiles.sorted() {
-            let path = "Sources/Vorssaint/UI/\(file)"
+            let path = "Sources/Cyra/UI/\(file)"
             guard !file.contains(borderlessMenuException),
                   let source = try? String(contentsOfFile: path, encoding: .utf8) else { continue }
             let lines = source.components(separatedBy: "\n")
@@ -14224,11 +14224,11 @@ struct MetricsTests {
         // caller that was found holding it.
         var unboundedOperationWaits: [String] = []
         let appSources = FileManager.default
-            .enumerator(atPath: "Sources/Vorssaint")?
+            .enumerator(atPath: "Sources/Cyra")?
             .compactMap { $0 as? String }
             .filter { $0.hasSuffix(".swift") && !$0.contains(" 2") } ?? []
         for file in appSources.sorted() {
-            guard let source = try? String(contentsOfFile: "Sources/Vorssaint/\(file)",
+            guard let source = try? String(contentsOfFile: "Sources/Cyra/\(file)",
                                            encoding: .utf8) else { continue }
             for (index, line) in source.components(separatedBy: "\n").enumerated()
             where line.contains("waitUntilAllOperationsAreFinished") {
@@ -14252,7 +14252,7 @@ struct MetricsTests {
         // catch; both reads found so far were written the direct way.
         var applicationRoleReads: [String] = []
         for file in appSources.sorted() {
-            guard let source = try? String(contentsOfFile: "Sources/Vorssaint/\(file)",
+            guard let source = try? String(contentsOfFile: "Sources/Cyra/\(file)",
                                            encoding: .utf8) else { continue }
             let lines = source.components(separatedBy: "\n")
             var applicationElements: Set<String> = []
@@ -14279,7 +14279,7 @@ struct MetricsTests {
         // it stops at the application element first, rather than a pin per copy.
         var unguardedParentWalks: [String] = []
         for file in appSources.sorted() {
-            guard let source = try? String(contentsOfFile: "Sources/Vorssaint/\(file)",
+            guard let source = try? String(contentsOfFile: "Sources/Cyra/\(file)",
                                            encoding: .utf8) else { continue }
             let lines = source.components(separatedBy: "\n")
                 .filter { !$0.trimmingCharacters(in: .whitespaces).hasPrefix("//") }
@@ -14911,7 +14911,7 @@ struct MetricsTests {
         // The page is the only place a refused mapping is visible, so the
         // reason has to reach it and be spelled out there.
         let superKeySettingsSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/UI/Settings/SuperKeySettings.swift",
+            contentsOfFile: "Sources/Cyra/UI/Settings/SuperKeySettings.swift",
             encoding: .utf8)) ?? ""
         let failureMark = superKeySettingsSource.range(of: "superKey.mappingFailure")
         let runningMark = superKeySettingsSource.range(of: "superKey.isRunning")
@@ -14976,7 +14976,7 @@ struct MetricsTests {
         // one place guaranteed to run before every session tap that reads
         // the flags. The service file is not in this binary; pin the shape.
         let superKeyServiceSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/SuperKey/SuperKeyService.swift",
+            contentsOfFile: "Sources/Cyra/Services/SuperKey/SuperKeyService.swift",
             encoding: .utf8)) ?? ""
         let superKeyServiceCode = superKeyServiceSource
             .split(separator: "\n", omittingEmptySubsequences: false)
@@ -16555,10 +16555,10 @@ struct MetricsTests {
         expect(Defaults.registeredDefaults[DefaultsKey.panelUtilityScreenRecorder] as? Bool == true,
                "the screen recorder panel tile ships visible like its siblings")
         let quickLauncherServiceSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/QuickTools/QuickLauncherService.swift",
+            contentsOfFile: "Sources/Cyra/Services/QuickTools/QuickLauncherService.swift",
             encoding: .utf8)) ?? ""
         let quickLauncherViewSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/UI/QuickLauncher/QuickLauncherView.swift",
+            contentsOfFile: "Sources/Cyra/UI/QuickLauncher/QuickLauncherView.swift",
             encoding: .utf8)) ?? ""
         expect(quickLauncherServiceSource.contains("case .screenRecorder: return .screenRecorder")
                 && quickLauncherServiceSource.contains("ScreenRecorderService.shared.toggle()")
@@ -16576,7 +16576,7 @@ struct MetricsTests {
                 && !extraCloseNeedsDemotion && windowRetention.count == 0,
                "user-facing windows share one balanced app activation lifetime")
         let appDelegateSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/App/AppDelegate.swift",
+            contentsOfFile: "Sources/Cyra/App/AppDelegate.swift",
             encoding: .utf8)) ?? ""
         expect(appDelegateSource.contains("if !settingsKeepsAppRegular {")
                 && appDelegateSource.contains("WindowActivationPolicy.retain()")
@@ -17446,7 +17446,7 @@ struct MetricsTests {
         // A key glyph in front of a button label reads as that button's
         // shortcut, so neither command bar action button carries one.
         let commandBarSettingsSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/UI/Settings/CommandBarSettings.swift",
+            contentsOfFile: "Sources/Cyra/UI/Settings/CommandBarSettings.swift",
             encoding: .utf8)) ?? ""
         expect(!commandBarSettingsSource.contains("Label(text.openButton, systemImage:")
                 && !commandBarSettingsSource.contains("Label(text.resetPositionButton, systemImage:"),
@@ -18026,15 +18026,15 @@ struct MetricsTests {
                "a removal that left something behind does not end on the same mark")
         // Both done states have to route through that decision and name what
         // survived; neither may spell a tick of its own.
-        for path in ["Sources/Vorssaint/UI/Uninstall/UninstallerView.swift",
-                     "Sources/Vorssaint/UI/MenuPanel/PanelUninstallerView.swift"] {
+        for path in ["Sources/Cyra/UI/Uninstall/UninstallerView.swift",
+                     "Sources/Cyra/UI/MenuPanel/PanelUninstallerView.swift"] {
             let source = (try? String(contentsOfFile: path, encoding: .utf8)) ?? ""
             expect(source.contains("UninstallFailureNote(items:"),
                    "\(path) names what the removal left behind")
             expect(!source.contains("\"checkmark.circle.fill\""),
                    "\(path) takes its done symbol from UninstallerSupport")
         }
-        let sharedUISource = (try? String(contentsOfFile: "Sources/Vorssaint/UI/SharedUI.swift",
+        let sharedUISource = (try? String(contentsOfFile: "Sources/Cyra/UI/SharedUI.swift",
                                           encoding: .utf8)) ?? ""
         expect(sharedUISource.contains("uninstallerFailedNeedsFDA"),
                "the failure note explains the permission the removal needed")
@@ -18120,7 +18120,7 @@ struct MetricsTests {
         }
 
         // MARK: Uninstallation paths stay aligned across SelfUninstall and Tools/uninstall.sh
-        let selfUninstallSource = (try? String(contentsOfFile: "Sources/Vorssaint/Services/SelfUninstall.swift",
+        let selfUninstallSource = (try? String(contentsOfFile: "Sources/Cyra/Services/SelfUninstall.swift",
                                               encoding: .utf8)) ?? ""
         let uninstallScriptSource = (try? String(contentsOfFile: "Tools/uninstall.sh",
                                                 encoding: .utf8)) ?? ""

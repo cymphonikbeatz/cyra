@@ -231,7 +231,7 @@ permissions and hardware, that is a small part of the claim.
 CI runs exactly those three. Four things are worth knowing beyond them:
 
 - **`./build.sh --test` is not proof that it compiles.** It builds a
-  hand-written list of source files, and `Sources/Vorssaint/UI/` is largely
+  hand-written list of source files, and `Sources/Cyra/UI/` is largely
   not on it. **When the change touches the UI layer, run plain `./build.sh`
   as well** — otherwise a compile error rides all the way to CI unnoticed.
 - **`swift build` is the seconds-long edit loop**, and worth keeping in it:

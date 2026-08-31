@@ -53,11 +53,11 @@ and falls back to the self signed identity, then to ad hoc.
 
 | Folder | Role |
 |---|---|
-| `Sources/Vorssaint/App` | App lifecycle and the menu bar status item |
-| `Sources/Vorssaint/Core` | Localization, permissions, UserDefaults keys |
-| `Sources/Vorssaint/Services` | All behavior, like energy, monitor, scroll and switcher |
-| `Sources/Vorssaint/UI` | SwiftUI views only, no business logic |
-| `Sources/Vorssaint/Support` | `--selftest` and `--sensors` diagnostics |
+| `Sources/Cyra/App` | App lifecycle and the menu bar status item |
+| `Sources/Cyra/Core` | Localization, permissions, UserDefaults keys |
+| `Sources/Cyra/Services` | All behavior, like energy, monitor, scroll and switcher |
+| `Sources/Cyra/UI` | SwiftUI views only, no business logic |
+| `Sources/Cyra/Support` | `--selftest` and `--sensors` diagnostics |
 | `Tools` | Icon generator and DMG packaging |
 
 A few conventions to keep in mind.
