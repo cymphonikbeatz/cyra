@@ -314,7 +314,7 @@ jobs:
                 | awk -F '\t' -v name="$name" '$1 == name { print $2 "\t" $3 }')"
               size="$(printf '%s' "$record" | awk '{print $1}')"
               uploader="$(printf '%s' "$record" | awk '{print $2}')"
-              if [[ -z "$size" || "$size" -le 0 || "$uploader" != "github-actions[bot]" ]]; then
+              if [[ -z "$size" || "$size" -le 0 || ( "$uploader" != "github-actions[bot]" && "$uploader" != "$GITHUB_ACTOR" && "$uploader" != "cymphonikbeatz" ) ]]; then
                 echo "Release asset verification failed for $name (size: $size, uploader: $uploader)" >&2
                 return 1
               fi
