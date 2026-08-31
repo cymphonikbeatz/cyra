@@ -2591,8 +2591,8 @@ struct MetricsTests {
                "update intro page indicators follow the navigation order")
         expect(AppInfo.discordURL.absoluteString == "https://discord.gg",
                "the community action uses the permanent Discord invitation")
-        expect(AppInfo.coffeeURL.absoluteString == "https://buymeacoffee.com",
-               "financial support uses Buy Me a Coffee")
+        expect(AppInfo.coffeeURL.host?.contains("flutterwave.com") == true && AppInfo.coffeeURL.scheme == "https",
+               "financial support uses Flutterwave")
         expect(AppInfo.socialURL.absoluteString == "https://x.com",
                "social previews keep the official X profile")
         // AppInfo.version falls back to "dev" in this bare harness, so read
@@ -2601,10 +2601,10 @@ struct MetricsTests {
         // decision above is made consciously, never by omission.
         let releasePlist = NSDictionary(contentsOfFile: "Resources/Info.plist")
         let plistVersion = (releasePlist?["CFBundleShortVersionString"] as? String) ?? ""
-        expect(plistVersion == "3.3.3-beta.3",
+        expect(plistVersion == "0.1.1",
                "bumping the app version requires re-deciding the support prompt pin above")
         let plistBuild = (releasePlist?["CFBundleVersion"] as? String) ?? ""
-        expect(plistBuild == "82",
+        expect(plistBuild == "1",
                "every app version needs its own incremented bundle build")
         expect(SupportUpdateIntroInfo.releaseVersion == "3.3.2",
                "the support prompt remains deliberately pinned to 3.3.2")
@@ -9240,7 +9240,7 @@ struct MetricsTests {
         ### Fixed
         - Update preview stays focused on changes.
 
-        Signed with an Apple Developer ID and notarized by Apple, so it downloads and opens normally. Requires macOS 14 or later. Open the .dmg below and drag Vorssaint to Applications.
+        Signed with an Apple Developer ID and notarized by Apple, so it downloads and opens normally. Requires macOS 14 or later. Open the .dmg below and drag Cyra to Applications.
         """
         let inAppUpdateBody = ReleaseNotes.inAppUpdateNotes(from: githubReleaseBodyWithFooter) ?? ""
         expect(!inAppUpdateBody.contains("Signed with an Apple Developer ID"),

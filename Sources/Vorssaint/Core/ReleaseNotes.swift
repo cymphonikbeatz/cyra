@@ -177,7 +177,9 @@ struct ReleaseNotes {
 
     private static func isDistributionFooter(_ line: String) -> Bool {
         let normalized = line.trimmingCharacters(in: .whitespacesAndNewlines)
-        return normalized == "Signed with an Apple Developer ID and notarized by Apple, so it downloads and opens normally. Requires macOS 14 or later. Open the .dmg below and drag Cyra to Applications."
+        return normalized.hasPrefix("Signed with an Apple Developer ID and notarized by Apple")
+            || normalized == "Signed with an Apple Developer ID and notarized by Apple, so it downloads and opens normally. Requires macOS 14 or later. Open the .dmg below and drag Cyra to Applications."
+            || normalized == "Signed with an Apple Developer ID and notarized by Apple, so it downloads and opens normally. Requires macOS 14 or later. Open the .dmg below and drag Vorssaint to Applications."
     }
 }
 
