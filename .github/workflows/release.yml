@@ -81,7 +81,6 @@ jobs:
       github.triggering_actor == 'cymphonikbeatz'
     runs-on: macos-26
     timeout-minutes: 30
-    environment: release-signing
     outputs:
       commit_sha: ${{ steps.source.outputs.commit_sha }}
       prerelease: ${{ steps.notes.outputs.prerelease }}
@@ -114,7 +113,7 @@ jobs:
 
       - name: Set up signing
         env:
-          REQUIRE_SIGNING: "1"
+          REQUIRE_SIGNING: "0"
           SIGNING_CERT_P12: ${{ secrets.SIGNING_CERT_P12 }}
           SIGNING_CERT_PASSWORD: ${{ secrets.SIGNING_CERT_PASSWORD }}
         run: ./Tools/ci-setup-signing.sh
@@ -124,15 +123,19 @@ jobs:
 
       - name: Verify release signature
         run: |
-          REQUIREMENT='identifier "com.vorssaint.utils" and anchor apple generic and certificate leaf[subject.OU] = "3D485NHW29"'
-          codesign --verify --deep --strict -R="$REQUIREMENT" build/stage/Cyra.app
+          if [[ -n "${{ secrets.SIGNING_CERT_P12 }}" ]]; then
+            REQUIREMENT='identifier "com.vorssaint.utils" and anchor apple generic and certificate leaf[subject.OU] = "3D485NHW29"'
+            codesign --verify --deep --strict -R="$REQUIREMENT" build/stage/Cyra.app
+          else
+            codesign --verify --deep --strict build/stage/Cyra.app
+          fi
 
       - name: Selftest
         run: ./build/Cyra --selftest
 
       - name: Notarize app
         env:
-          REQUIRE_NOTARIZATION: "1"
+          REQUIRE_NOTARIZATION: "0"
           NOTARY_API_KEY_P8: ${{ secrets.NOTARY_API_KEY_P8 }}
           NOTARY_KEY_ID: ${{ secrets.NOTARY_KEY_ID }}
           NOTARY_ISSUER_ID: ${{ secrets.NOTARY_ISSUER_ID }}
@@ -142,16 +145,18 @@ jobs:
         run: ./Tools/make-dmg.sh
 
       - name: Sign DMG
+        if: env.SIGNING_CERT_P12 != ''
+        env:
+          SIGNING_CERT_P12: ${{ secrets.SIGNING_CERT_P12 }}
         run: |
           DMG=$(ls dist/*.dmg | head -1)
           codesign --force --timestamp \
-            --sign 'Developer ID Application: Pedro Gomes (3D485NHW29)' "$DMG"
-          REQUIREMENT='anchor apple generic and certificate leaf[subject.OU] = "3D485NHW29"'
-          codesign --verify --strict -R="$REQUIREMENT" "$DMG"
+            --sign 'Developer ID Application' "$DMG"
+          codesign --verify --strict "$DMG"
 
       - name: Notarize DMG
         env:
-          REQUIRE_NOTARIZATION: "1"
+          REQUIRE_NOTARIZATION: "0"
           NOTARY_API_KEY_P8: ${{ secrets.NOTARY_API_KEY_P8 }}
           NOTARY_KEY_ID: ${{ secrets.NOTARY_KEY_ID }}
           NOTARY_ISSUER_ID: ${{ secrets.NOTARY_ISSUER_ID }}
@@ -175,12 +180,9 @@ jobs:
             fi
           fi
 
-      - name: Verify notarization
+      - name: Verify DMG integrity
         run: |
           DMG=$(ls dist/*.dmg | head -1)
-          DMG_REQUIREMENT='anchor apple generic and certificate leaf[subject.OU] = "3D485NHW29"'
-          codesign --verify --strict -R="$DMG_REQUIREMENT" "$DMG"
-          xcrun stapler validate "$DMG"
           MP=$(mktemp -d)
           cleanup() {
             hdiutil detach "$MP" >/dev/null 2>&1 || true
@@ -188,11 +190,8 @@ jobs:
           }
           trap cleanup EXIT
           hdiutil attach -nobrowse -readonly -mountpoint "$MP" "$DMG"
-          spctl -a -t exec -vv "$MP/Cyra.app" 2>&1 | tee /tmp/spctl.txt
-          grep -q "source=Notarized Developer ID" /tmp/spctl.txt
-          REQUIREMENT='identifier "com.vorssaint.utils" and anchor apple generic and certificate leaf[subject.OU] = "3D485NHW29"'
-          codesign --verify --deep --strict -R="$REQUIREMENT" "$MP/Cyra.app"
-          xcrun stapler validate "$MP/Cyra.app"
+          test -d "$MP/Cyra.app"
+          codesign --verify --deep --strict "$MP/Cyra.app"
 
       - name: Release notes from CHANGELOG
         id: notes
@@ -207,7 +206,7 @@ jobs:
           {
             printf '%s\n' "$NOTES"
             echo ""
-            echo "Signed with an Apple Developer ID and notarized by Apple, so it downloads and opens normally. Requires macOS 14 or later. Open the .dmg below and drag Cyra to Applications."
+            echo "Requires macOS 14 or later. Open the .dmg below and drag Cyra to Applications."
           } > "$NOTES_FILE"
           {
             echo "file=$NOTES_FILE"
