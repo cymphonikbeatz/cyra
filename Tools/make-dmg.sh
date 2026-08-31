@@ -134,4 +134,5 @@ mkdir -p dist
 rm -f "$OUT"
 hdiutil convert "$RW" -format UDZO -imagekey zlib-level=9 -o "$OUT" -quiet
 
-echo "✓ DMG ready: $OUT"
+cp -f "$OUT" dist/Cyra.dmg
+echo "✓ DMG ready: $OUT (and dist/Cyra.dmg)"
